@@ -13,7 +13,7 @@ Both members develop and review code. A member other than the PR author reviews 
 
 ## Project links
 
-- [Sprint board](https://github.com/users/1naser-git/projects/1) (managed by Naser; access depends on the board's visibility)
+- [Public sprint board](https://github.com/users/1naser-git/projects/1) (managed by Naser and readable by the team and instructor)
 - [Original authentication PR #2](https://github.com/Yazanleva/1.-officepulse/pull/2)
 - [Lab 1 completion PR #3](https://github.com/Yazanleva/1.-officepulse/pull/3), based on `feature/auth`
 - [Retro - Lab 1](https://github.com/Yazanleva/1.-officepulse/issues/8)
