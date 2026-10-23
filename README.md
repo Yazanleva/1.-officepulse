@@ -11,6 +11,15 @@ OfficePulse helps university students avoid office queues by booking visits and 
 
 Both members develop and review code. A member other than the PR author reviews each change before it is merged.
 
+## Project links
+
+- [Sprint board](https://github.com/users/1naser-git/projects/1) (managed by Naser; access depends on the board's visibility)
+- [Original authentication PR #2](https://github.com/Yazanleva/1.-officepulse/pull/2)
+- [Lab 1 completion PR #3](https://github.com/Yazanleva/1.-officepulse/pull/3), based on `feature/auth`
+- [Retro - Lab 1](https://github.com/Yazanleva/1.-officepulse/issues/8)
+
+Sprint 1 stories: [authentication #1](https://github.com/Yazanleva/1.-officepulse/issues/1), [office list #4](https://github.com/Yazanleva/1.-officepulse/issues/4), [booking #5](https://github.com/Yazanleva/1.-officepulse/issues/5), and [My visits #6](https://github.com/Yazanleva/1.-officepulse/issues/6). [Queue and expiry #7](https://github.com/Yazanleva/1.-officepulse/issues/7) are in the Lab 3 backlog.
+
 ## MVP and scope
 
 | Feature | Delivery |
