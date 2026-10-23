@@ -43,7 +43,7 @@ fun AppNavHost(
     authViewModel: AuthViewModel = viewModel()
 ) {
     val state by authViewModel.uiState.collectAsStateWithLifecycle()
-    val isSignedIn = state.userEmail != null
+    val isSignedIn by authViewModel.isLoggedIn.collectAsStateWithLifecycle()
 
     // Reset navigation when the user signs in or logs out.
     key(isSignedIn) {
@@ -57,6 +57,8 @@ fun AppNavHost(
             composable("login") {
                 LoginScreen(
                     state = state,
+                    onEmailChange = authViewModel::updateEmail,
+                    onPasswordChange = authViewModel::updatePassword,
                     onLogin = authViewModel::login,
                     onOpenRegister = {
                         authViewModel.clearErrors()
@@ -70,6 +72,9 @@ fun AppNavHost(
             composable("register") {
                 RegisterScreen(
                     state = state,
+                    onEmailChange = authViewModel::updateEmail,
+                    onPasswordChange = authViewModel::updatePassword,
+                    onConfirmationChange = authViewModel::updateConfirmation,
                     onRegister = authViewModel::register,
                     onOpenLogin = {
                         authViewModel.clearErrors()

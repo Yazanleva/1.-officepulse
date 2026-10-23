@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "completed": [
+    "Back from authenticated Home leaves the app instead of showing Login",
+    "Reopening restores the authenticated Home screen",
+    "Back after logout leaves Login instead of restoring Home",
+    "Reopening after logout remains on Login"
+  ]
+}
