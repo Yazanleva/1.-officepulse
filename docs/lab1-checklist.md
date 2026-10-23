@@ -13,7 +13,7 @@ Use this list for the live demo. A checkbox is complete only when supported by t
 - [x] Sprint 1 stories have acceptance criteria, labels and assignees
 - [x] Board workflows move closed issues and merged PRs to Done
 - [x] Protect-main ruleset verified: PR and one approval, no force pushes, no deletions
-- [ ] Board access confirmed for the teammate and instructor (Naser manages the board)
+- [x] Board made public so the teammate and instructor can read it (Naser manages the board)
 - [ ] At least two PRs merged after a review by the other member
 
 ## App and Firebase
