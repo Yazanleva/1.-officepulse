@@ -20,3 +20,42 @@ Run the checks against the existing Firebase project on a Google Play emulator o
 `AuthValidatorTest` checks email structure, the six-character boundary, and exact confirmation matching. `AuthViewModelTest` verifies validation prevents repository calls, duplicate submissions are ignored, email whitespace is trimmed, sessions follow the auth-state flow, saved sessions restore, logout follows the listener, private exception details do not reach the screen, and password fields clear when forms switch.
 
 Record real device and cloud results separately from these unit tests. An APK build alone is not an end-to-end authentication test.
+
+## Verified on 23 October 2026
+
+The real project `officepulse-86e4d` passed registration through Compose, user reload from the server, duplicate-email handling, incorrect-password handling, logout, and correct login. A force-stop followed by launching MainActivity restored the signed-in Home screen. The Android Back tests passed both before and after logout; reopening after logout stayed on Login. Activity recreation retained the email and password fields.
+
+The test account uses a generated `officepulse-lab1-...@example.com` address. Its password is random, held only in the test process, and is not printed or committed. The first Gradle run cleaned up the installed APK automatically, so a retained-APK run was used for the persistence checks; two dedicated test accounts were created in total. The project owner can identify them by this email prefix in Firebase Console. The final emulator session is logged out.
+
+See [screenshots and actual result records](evidence/README.md). These records contain no password, ID token, refresh token or private key. Firebase Console billing/membership and the instructor's access still need the project owner to confirm.
+
+## Repeat the opt-in real-cloud checks
+
+The regular device tests do not create cloud accounts. To deliberately run the cloud flow and retain the APK/session for the following test:
+
+```powershell
+.\gradlew.bat :app:connectedDebugAndroidTest `
+  -Pandroid.testInstrumentationRunnerArguments.class=com.officepulse.app.FirebaseAcceptanceTest `
+  -Pandroid.testInstrumentationRunnerArguments.runCloudAuth=true `
+  -Pandroid.injected.androidTest.leaveApksInstalledAfterRun=true
+```
+
+Each enabled acceptance-test run creates one additional test account. The following command checks Back and session behavior using that retained session, then logs out:
+
+```powershell
+adb shell am instrument -w -r `
+  -e class com.officepulse.app.FirebaseSessionNavigationTest `
+  -e runCloudSessionChecks true `
+  com.officepulse.app.test/androidx.test.runner.AndroidJUnitRunner
+```
+
+While logged out, Activity recreation can be checked without another cloud account:
+
+```powershell
+adb shell am instrument -w -r `
+  -e class com.officepulse.app.AuthRotationTest `
+  -e runRotationCheck true `
+  com.officepulse.app.test/androidx.test.runner.AndroidJUnitRunner
+```
+
+`adb` is in the Android SDK's platform-tools folder. Run these after building/installing the current test APK. The opt-in tests skip when their explicit flag or required session state is absent.

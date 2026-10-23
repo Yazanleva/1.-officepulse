@@ -23,8 +23,11 @@ Use this list for the live demo. A checkbox is complete only when supported by t
 - [x] Listener-driven session state and navigation
 - [x] Updated source builds; 9 authentication unit tests plus the starter test pass; lint has 0 errors
 - [x] Three authentication UI tests plus the starter device test pass on the API 36 emulator (fake repository)
-- [ ] Device acceptance tests in testing.md passed
-- [ ] Owner confirms Spark plan, Email/Password enabled, team and instructor access
+- [x] Real Firebase registration, duplicate email, wrong password, logout and login passed on the emulator
+- [x] Force-stop/restart restores Home; after logout, restart stays on Login
+- [x] Android Back cannot reveal previous Login/Home screens; Activity recreation retains form fields
+- [x] Email/Password sign-in verified by successful real Firebase operations
+- [ ] Owner confirms Spark plan and team/instructor access
 - [ ] Owner confirms new test user is visible in Firebase Authentication
 
 ## Demo and retrospective
@@ -35,4 +38,4 @@ Use this list for the live demo. A checkbox is complete only when supported by t
 
 Firestore CRUD, queue logic and Cloud Functions are planned for Labs 2 and 3, not prerequisites for completing the Lab 1 login skeleton.
 
-Verification date: 23 October 2026. Build/lint: 0 errors, 13 warnings (dependency update notices and starter-resource warnings). These automated results do not mark real Firebase acceptance tests complete.
+Verification date: 23 October 2026. Build/lint: 0 errors, 13 warnings (dependency update notices and starter-resource warnings). The three opt-in checks exercise the real Firebase flow, Back/session behavior, and Activity recreation. Screenshots and non-secret result records are in docs/evidence. Console membership, billing plan and the classroom demo are still team checks.
