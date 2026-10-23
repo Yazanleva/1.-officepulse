@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "650209674381",
+    "project_id": "officepulse-86e4d",
+    "storage_bucket": "officepulse-86e4d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650209674381:android:f867ff7bd46bed417a8ec4",
+        "android_client_info": {
+          "package_name": "com.officepulse.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDckaFMH8D6qnjoQho0B6EpErPQcvXT70I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
