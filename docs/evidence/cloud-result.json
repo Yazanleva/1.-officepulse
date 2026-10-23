@@ -1,0 +1,15 @@
+{
+  "email": "officepulse-lab1-c21a0be8-540@example.com",
+  "backend": "officepulse-86e4d",
+  "uid": "ZFTO8ovDXZcrzDKX7TnhP2MaOdy2",
+  "passed": true,
+  "completed": [
+    "Registration through Compose opens Home",
+    "User reload succeeds against the real Firebase server",
+    "Logout returns to Login",
+    "Duplicate email shows a friendly error",
+    "Wrong password shows a friendly error",
+    "Correct credentials return to Home"
+  ],
+  "lastErrorCode": null
+}
