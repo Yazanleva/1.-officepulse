@@ -81,7 +81,7 @@ From the repository root, with the Android SDK configured:
 .\gradlew.bat :app:connectedDebugAndroidTest
 ```
 
-The second command requires a running emulator or connected device. See [the manual test checklist](docs/testing.md) for the real Firebase acceptance tests and [the lab checklist](docs/lab1-checklist.md) for team/repository requirements.
+The second command requires a running emulator or connected device. See [the test guide and verified cloud results](docs/testing.md), [clean screenshots and result records](docs/evidence/README.md), and [the lab checklist](docs/lab1-checklist.md). Real Firebase registration/login/logout, readable errors, restart/session persistence, Back navigation and form retention were verified on 23 October 2026. The remaining sign-off is the other member's review/merge, owner confirmation of Firebase billing/membership, and the classroom demo/retrospective.
 
 ## Workflow
 
