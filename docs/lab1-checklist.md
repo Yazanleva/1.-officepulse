@@ -9,10 +9,11 @@ Use this list for the live demo. A checkbox is complete only when supported by t
 - [x] At most five planned screens and three typed Firestore collections with ownership fields
 - [x] Mermaid architecture and run instructions
 - [x] PR and user-story templates
-- [ ] Board: Backlog, Sprint 1, In progress, In review, Done
-- [ ] Sprint 1 stories have acceptance criteria, labels and assignees
-- [ ] Board workflows move closed issues and merged PRs to Done
-- [ ] Protect-main ruleset verified: PR and one approval, no force pushes, no deletions
+- [x] Board: Backlog, Sprint 1, In progress, In review, Done
+- [x] Sprint 1 stories have acceptance criteria, labels and assignees
+- [x] Board workflows move closed issues and merged PRs to Done
+- [x] Protect-main ruleset verified: PR and one approval, no force pushes, no deletions
+- [ ] Board access confirmed for the teammate and instructor (Naser manages the board)
 - [ ] At least two PRs merged after a review by the other member
 
 ## App and Firebase
@@ -29,7 +30,7 @@ Use this list for the live demo. A checkbox is complete only when supported by t
 ## Demo and retrospective
 
 - [ ] Demo: problem/MVP, data model/architecture, register/logout/login/restart, board/PRs/rules
-- [ ] Retro - Lab 1 issue contains one or two action items
+- [x] Retro - Lab 1 issue #8 contains two action items; Naser's comment is posted
 - [ ] Each member comments: went well / did not go well / we will change
 
 Firestore CRUD, queue logic and Cloud Functions are planned for Labs 2 and 3, not prerequisites for completing the Lab 1 login skeleton.
