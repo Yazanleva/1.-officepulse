@@ -2,7 +2,7 @@ package com.officepulse.app
 
 object AuthValidator {
 
-    fun emailError(email: String): String? {
+    fun validateEmail(email: String): String? {
         val trimmedEmail = email.trim()
         val emailPattern = Regex("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$")
 
@@ -13,7 +13,7 @@ object AuthValidator {
         }
     }
 
-    fun passwordError(password: String): String? {
+    fun validatePassword(password: String): String? {
         return when {
             password.isEmpty() -> "Enter your password."
             password.length < 6 -> "Use at least 6 characters."
@@ -21,7 +21,7 @@ object AuthValidator {
         }
     }
 
-    fun confirmPasswordError(
+    fun validatePasswordConfirmation(
         password: String,
         confirmPassword: String
     ): String? {

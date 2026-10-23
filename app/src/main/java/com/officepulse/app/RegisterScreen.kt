@@ -18,11 +18,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -31,14 +26,13 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun RegisterScreen(
     state: AuthUiState,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onConfirmationChange: (String) -> Unit,
     onRegister: (String, String, String) -> Unit,
     onOpenLogin: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var email by rememberSaveable { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -60,8 +54,8 @@ fun RegisterScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
+            value = state.email,
+            onValueChange = onEmailChange,
             label = { Text("Email") },
             singleLine = true,
             enabled = !state.isLoading,
@@ -76,8 +70,8 @@ fun RegisterScreen(
         )
 
         OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
+            value = state.password,
+            onValueChange = onPasswordChange,
             label = { Text("Password") },
             singleLine = true,
             enabled = !state.isLoading,
@@ -96,8 +90,8 @@ fun RegisterScreen(
         )
 
         OutlinedTextField(
-            value = confirmPassword,
-            onValueChange = { confirmPassword = it },
+            value = state.confirmPassword,
+            onValueChange = onConfirmationChange,
             label = { Text("Confirm password") },
             singleLine = true,
             enabled = !state.isLoading,
@@ -129,7 +123,7 @@ fun RegisterScreen(
 
         Button(
             onClick = {
-                onRegister(email, password, confirmPassword)
+                onRegister(state.email, state.password, state.confirmPassword)
             },
             enabled = !state.isLoading,
             modifier = Modifier.fillMaxWidth()
