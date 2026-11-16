@@ -63,7 +63,7 @@ class FirebaseAcceptanceTest {
         val email = "officepulse-lab1-${UUID.randomUUID().toString().take(12)}@example.com"
         val password = "Lab7!${UUID.randomUUID()}"
         val completed = mutableListOf<String>()
-        val evidence = JSONObject().put("email", email).put("backend", "officepulse-86e4d")
+        val evidence = JSONObject().put("email", email).put("backend", com.google.firebase.FirebaseApp.getInstance().options.projectId)
         try {
             compose.setContent {
                 val model = remember { AuthViewModel(repository) }
@@ -81,7 +81,7 @@ class FirebaseAcceptanceTest {
             runBlocking { auth.currentUser!!.reload().await() }
             assertNotNull(auth.currentUser?.uid)
             evidence.put("uid", auth.currentUser!!.uid)
-            completed += "User reload succeeds against the real Firebase server"
+            completed += "User reload succeeds against the configured Firebase backend"
 
             submit("Log out")
             waitFor("Log in to your account")

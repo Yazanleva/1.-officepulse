@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    match /offices/{id} { allow read: if signedIn(); }
+    match /visits/{id} {
+      function own(data) { return signedIn() && data.ownerId == request.auth.uid; }
+      function valid(d) {
+        let keys = ['ownerId','officeId','officeName','topic','startAt','endAt','createdAt','updatedAt','status','rejectReason'];
+        return d.keys().hasAll(keys) && d.keys().hasOnly(keys)
+          && d.officeId is string && d.officeId.matches('[A-Za-z0-9_-]+')
+          && d.officeName == get(/databases/$(database)/documents/offices/$(d.officeId)).data.name
+          && d.topic is string && d.topic.size() <= 200 && d.topic.matches('(?s).*[^\\s].*')
+          && d.startAt is timestamp && d.endAt is timestamp && d.endAt > d.startAt
+          && d.createdAt is timestamp && d.updatedAt == request.time
+          && d.status in ['pending','confirmed','rejected'] && d.rejectReason is string;
+      }
+      allow read, delete: if own(resource.data);
+      allow create: if own(request.resource.data) && valid(request.resource.data)
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.status == 'pending' && request.resource.data.rejectReason == '';
+      allow update: if own(resource.data) && valid(request.resource.data)
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.createdAt == resource.data.createdAt
+        && (request.resource.data.status == 'pending' && request.resource.data.rejectReason == ''
+          || !request.resource.data.diff(resource.data).affectedKeys()
+            .hasAny(['officeId','startAt','endAt','status','rejectReason']));
+    }
+  }
+}
