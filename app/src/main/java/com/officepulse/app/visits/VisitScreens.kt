@@ -44,7 +44,8 @@ fun VisitsScreen(model: VisitListModel, email: String, logout: () -> Unit, edit:
         when {
             state.loading -> item { CircularProgressIndicator() }
             state.error != null -> item { Text(state.error.orEmpty()); TextButton(onClick = model::retry) { Text("Retry") } }
-
+            state.visits.isEmpty() -> item { Text("No visits yet. Choose Book a visit to arrange your first appointment.") }
+            visible.isEmpty() -> item { Text("No visits match your search.") }
         }
         items(visible, key = { it.id }) { visit ->
             OutlinedCard(modifier = Modifier.fillMaxWidth().clickable { edit(visit.id) }) {
