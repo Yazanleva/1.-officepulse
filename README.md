@@ -71,6 +71,8 @@ See docs/lab2-progress.md for saved checkpoints, verification and remaining team
 
 Repository: https://github.com/Yazanleva/1.-officepulse
 
-Sprint board: https://github.com/users/1naser-git/projects/1
+Sprint 2 board: https://github.com/users/Yazanleva/projects/2
+
+Previous Lab 1 board: https://github.com/users/1naser-git/projects/1
 
 Every change requires a peer-reviewed PR linked to an issue. Each teammate must author a meaningful merged PR for Lab 2. The instructor checks the demo and retrospective.
