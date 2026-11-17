@@ -13,3 +13,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+node_modules/
+
+.firebase/
+*-debug.log
+
+.kotlin/

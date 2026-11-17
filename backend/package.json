@@ -1,0 +1,13 @@
+{
+  "name": "officepulse-backend",
+  "private": true,
+  "type": "module",
+  "engines": {"node":"22 || 24"},
+  "scripts": {
+    "start":"firebase emulators:start --project demo-officepulse",
+    "seed":"node seed.mjs",
+    "test":"firebase emulators:exec --only firestore --project demo-officepulse \"node --test rules.test.mjs\""
+  },
+  "dependencies":{"firebase-admin":"^13.0.0"},
+  "devDependencies":{"firebase-tools":"^14.0.0","firebase":"^12.0.0","@firebase/rules-unit-testing":"^5.0.0"}
+}

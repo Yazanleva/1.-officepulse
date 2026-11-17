@@ -1,5 +1,7 @@
 package com.officepulse.app
 
+import com.officepulse.app.visits.*
+import androidx.compose.runtime.remember
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -84,10 +86,20 @@ fun AppNavHost(
             }
 
             composable("home") {
-                HomeScreen(
-                    email = state.userEmail.orEmpty(),
-                    onLogout = authViewModel::logout
-                )
+                val repo = remember { FirestoreVisits() }
+                val model: VisitListModel = viewModel { VisitListModel(repo) }
+                VisitsScreen(model, state.userEmail.orEmpty(), authViewModel::logout) { id ->
+                    navController.navigate(if (id == null) "book" else "edit/$id")
+                }
+            }
+            composable("book") {
+                val model: VisitFormModel = viewModel { VisitFormModel(FirestoreVisits(), null) }
+                VisitFormScreen(model, false) { navController.popBackStack() }
+            }
+            composable("edit/{visitId}") { entry ->
+                val id = requireNotNull(entry.arguments?.getString("visitId"))
+                val model: VisitFormModel = viewModel { VisitFormModel(FirestoreVisits(), id) }
+                VisitFormScreen(model, true) { navController.popBackStack() }
             }
         }
     }
