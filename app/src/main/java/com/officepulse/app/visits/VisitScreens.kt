@@ -63,9 +63,18 @@ fun VisitsScreen(model: VisitListModel, email: String, logout: () -> Unit, edit:
 
 @Composable
 private fun TimeField(label: String, value: Long, error: String?, enabled: Boolean, change: (Long) -> Unit) {
-    var raw by rememberSaveable(value) { mutableStateOf(if (value == 0L) "" else value.toString()) }
-    OutlinedTextField(raw, { raw = it; it.toLongOrNull()?.let(change) }, enabled = enabled,
-        label = { Text(label + " (Unix milliseconds)") }, singleLine = true)
+    val context = LocalContext.current
+    OutlinedButton(enabled = enabled, onClick = {
+        val cal = Calendar.getInstance()
+        if (value > 0) cal.timeInMillis = value
+        DatePickerDialog(context, { _, year, month, day ->
+            TimePickerDialog(context, { _, hour, minute ->
+                cal.set(year, month, day, hour, minute, 0)
+                cal.set(Calendar.MILLISECOND, 0)
+                change(cal.timeInMillis)
+            }, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
+        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+    }) { Text(if (value == 0L) label else label + " · " + displayTime(value)) }
     FieldError(error)
 }
 
