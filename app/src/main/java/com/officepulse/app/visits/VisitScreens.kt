@@ -40,8 +40,7 @@ private fun displayTime(value: Long) = DateFormat.getDateTimeInstance(DateFormat
 fun VisitsScreen(model: VisitListModel, email: String, logout: () -> Unit, edit: (String?) -> Unit) {
     val state by model.state.collectAsStateWithLifecycle()
     var query by rememberSaveable { mutableStateOf("") }
-    var status by rememberSaveable { mutableStateOf("All") }
-    val visible = searchVisits(state.visits, query, status)
+    val visible = searchVisits(state.visits, query)
     val context = LocalContext.current
     LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -57,18 +56,11 @@ fun VisitsScreen(model: VisitListModel, email: String, logout: () -> Unit, edit:
         item { OutlinedTextField(query, { query = it }, label = { Text("Search by office or topic") },
             singleLine = true, modifier = Modifier.fillMaxWidth(),
             trailingIcon = { if (query.isNotEmpty()) TextButton(onClick = { query = "" }) { Text("Clear") } }) }
-        item {
-            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf("All", "Confirmed", "Pending", "Rejected").forEach { value ->
-                    FilterChip(selected = value == status, onClick = { status = value }, label = { Text(value) })
-                }
-            }
-        }
         when {
             state.loading -> item { CircularProgressIndicator() }
             state.error != null -> item { Text(state.error.orEmpty()); TextButton(onClick = model::retry) { Text("Retry") } }
             state.visits.isEmpty() -> item { Text("No visits yet. Choose Book a visit to arrange your first appointment.") }
-            visible.isEmpty() -> item { Text(if (status == "All") "No visits match your search." else "No matching visits with this status.") }
+            visible.isEmpty() -> item { Text("No visits match your search.") }
         }
         items(visible, key = { it.id }) { visit ->
             OutlinedCard(modifier = Modifier.fillMaxWidth().clickable { edit(visit.id) }) {
@@ -76,16 +68,7 @@ fun VisitsScreen(model: VisitListModel, email: String, logout: () -> Unit, edit:
                     Text(visit.officeName, style = MaterialTheme.typography.titleMedium)
                     Text(visit.input.topic)
                     Text(displayTime(visit.input.start) + " – " + displayTime(visit.input.end))
-                    val (badge, ink) = when (visit.status) {
-                        "confirmed" -> Color(0xFFF1DFFB) to Color(0xFF56286F)
-                        "rejected" -> Color(0xFFFFDDD7) to Color(0xFF822F26)
-                        else -> Color(0xFFFFE8B6) to Color(0xFF684807)
-                    }
-                    Surface(color = badge, contentColor = ink, shape = CircleShape) {
-                        Text(visit.status.replaceFirstChar { it.uppercase() }, Modifier.padding(horizontal = 12.dp, vertical = 5.dp),
-                            style = MaterialTheme.typography.labelMedium)
-                    }
-                    if (visit.status == "confirmed") TextButton(onClick = {
+                    TextButton(onClick = {
                         val intent = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI)
                             .putExtra(CalendarContract.Events.TITLE, visit.input.topic)
                             .putExtra(CalendarContract.Events.EVENT_LOCATION, visit.officeName)
@@ -95,7 +78,6 @@ fun VisitsScreen(model: VisitListModel, email: String, logout: () -> Unit, edit:
                             Toast.makeText(context, "Install a calendar app to add this visit.", Toast.LENGTH_SHORT).show()
                         }
                     }) { Text("Add to calendar") }
-                    if (visit.reason.isNotBlank()) Text(visit.reason)
                 }
             }
         }
