@@ -1,0 +1,46 @@
+
+> test
+> firebase emulators:exec --only firestore --project demo-officepulse "node --test rules.test.mjs"
+
+i  emulators: Starting emulators: firestore
+i  emulators: Detected demo project ID "demo-officepulse", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
+✔  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: node --test rules.test.mjs
+✔ 1 owner reads visit (852.487667ms)
+✔ 2 other student cannot read visit (22.201875ms)
+✔ 3 signed-out read denied (17.379125ms)
+[2026-11-17T20:08:50.887Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x17e9fe14 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L19:24 for 'create' @ L19, evaluation error at L22:24 for 'update' @ L22, false for 'create' @ L19
+✔ 4 owner comes from session (17.978708ms)
+[2026-11-17T20:08:50.899Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x17e9fe10 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L19:24 for 'create' @ L19, evaluation error at L22:24 for 'update' @ L22, false for 'create' @ L19
+✔ 5 end must follow start (11.511666ms)
+[2026-11-17T20:08:50.915Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x17e9fe15 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L22:24 for 'update' @ L22, false for 'update' @ L22
+✔ 6 owner is immutable (16.282167ms)
+[2026-11-17T20:08:50.925Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x17e9fe16 error. Code: 7 Message: 7 PERMISSION_DENIED: No matching allow statements
+✔ 7 offices are read-only (9.459084ms)
+✔ 8 students can read offices (6.956167ms)
+[2026-11-17T20:08:50.945Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x17e9fe17 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L19:24 for 'create' @ L19, evaluation error at L22:24 for 'update' @ L22, false for 'create' @ L19
+✔ 9 client cannot create confirmed visit (13.282583ms)
+[2026-11-17T20:08:50.961Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x17e9fe18 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L22:24 for 'update' @ L22, false for 'update' @ L22
+✔ 10 client cannot confirm pending visit (15.462167ms)
+[2026-11-17T20:08:50.973Z]  @firebase/firestore: Firestore (12.19.0): GrpcConnection RPC 'Write' stream 0x17e9fe19 error. Code: 7 Message: 7 PERMISSION_DENIED: 
+evaluation error at L22:24 for 'update' @ L22, false for 'update' @ L22
+✔ 11 changing a confirmed slot requires pending (12.766ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1142.8325
+✔  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator

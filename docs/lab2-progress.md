@@ -23,4 +23,6 @@
 
 GitHub CLI has no signed-in account. Remote publication remains pending authentication. No submission tag has been created.
 
-4. Fresh Android build passed, including 26 JVM tests and lint. The rules suite passed all 11 retained scenarios, including Lab 2 scenarios 1–8. Device checks are running.
+4. Fresh Android build passed, including 26 JVM tests and lint. The rules suite passed all 11 retained scenarios, including Lab 2 scenarios 1–8. All nine device checks passed. Refreshed screenshots were extracted from this run.
+
+5. Saved separate local review branches for core, E1, E3 and E4. Prepared GitHub issue bodies and assignments. Publication requires the active device authorization.
