@@ -22,3 +22,5 @@
 | R10 Team/demo | Demo outline in project | Actual teammate PRs, reviews, demo and retrospective |
 
 GitHub CLI has no signed-in account. Remote publication remains pending authentication. No submission tag has been created.
+
+4. Fresh Android build passed, including 26 JVM tests and lint. The rules suite passed all 11 retained scenarios, including Lab 2 scenarios 1–8. Device checks are running.
