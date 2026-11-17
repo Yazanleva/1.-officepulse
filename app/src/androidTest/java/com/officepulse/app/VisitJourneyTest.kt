@@ -5,6 +5,7 @@ import android.widget.TimePicker
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -41,13 +42,13 @@ class VisitJourneyTest {
 
     private fun pick(label: String, hour: Int) {
         tap(label)
-        onView(withId(android.R.id.button1)).perform(click())
-        onView(isAssignableFrom(TimePicker::class.java)).check { view, error ->
+        onView(withId(android.R.id.button1)).inRoot(isDialog()).perform(click())
+        onView(isAssignableFrom(TimePicker::class.java)).inRoot(isDialog()).check { view, error ->
             if (error != null) throw error
             (view as TimePicker).hour = hour
             view.minute = 0
         }
-        onView(withId(android.R.id.button1)).perform(click())
+        onView(withId(android.R.id.button1)).inRoot(isDialog()).perform(click())
     }
 
     @Test fun studentBooksEditsSearchesAndDeletesOwnVisit() {
