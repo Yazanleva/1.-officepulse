@@ -77,7 +77,7 @@ fun VisitsScreen(model: VisitListModel, email: String, logout: () -> Unit, edit:
                     Text(visit.input.topic)
                     Text(displayTime(visit.input.start) + " – " + displayTime(visit.input.end))
                     val (badge, ink) = when (visit.status) {
-                        "confirmed" -> Color(0xFFC9F4DF) to Color(0xFF13513E)
+                        "confirmed" -> Color(0xFFF1DFFB) to Color(0xFF56286F)
                         "rejected" -> Color(0xFFFFDDD7) to Color(0xFF822F26)
                         else -> Color(0xFFFFE8B6) to Color(0xFF684807)
                     }
@@ -153,7 +153,7 @@ fun VisitFormScreen(model: VisitFormModel, editing: Boolean, close: () -> Unit) 
                 val (tile, ink, mark) = when (office.id) {
                     "exchange" -> Triple(Color(0xFFDDE8FF), Color(0xFF314989), "IO")
                     "finance" -> Triple(Color(0xFFFFE1C3), Color(0xFF7A4319), "SF")
-                    else -> Triple(Color(0xFFC5EEDD), Color(0xFF225845), "SR")
+                    else -> Triple(Color(0xFFFFD9E7), Color(0xFF730237), "SR")
                 }
                 Surface(shape = RoundedCornerShape(18.dp),
                     color = if (selected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,

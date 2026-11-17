@@ -1,5 +1,7 @@
 # OfficePulse
 
+This student project uses the Polish/English wordmark from the [Akademia WSB downloads page](https://wsb.edu.pl/uczelnia/do-pobrania). Its pink accent is sampled from the published logo (#CC0C61). The booking directory contains demo offices.
+
 OfficePulse helps university students avoid office queues by booking visits and tracking their turn.
 
 ## Run the booking app
