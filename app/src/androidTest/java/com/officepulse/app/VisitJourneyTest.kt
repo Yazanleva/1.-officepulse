@@ -99,11 +99,11 @@ class VisitJourneyTest {
             compose.setContent { OfficePulseTheme { AppNavHost() } }
             waitText("No visits yet. Choose Book a visit to arrange your first appointment.")
             tap("Book a visit")
-            waitText("Student Registry · Main building")
+            waitText("Student Registry")
             tap("Save visit")
             waitText("Enter a visit topic.")
             screenshot("lab2-validation")
-            tap("Student Registry · Main building")
+            tap("Student Registry")
             compose.onNodeWithText("Visit topic").performTextInput("Course registration")
             pick("Start", 10)
             pick("End", 11)

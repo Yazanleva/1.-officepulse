@@ -18,5 +18,9 @@ class VisitLogicTest {
     @Test fun officeSearchIgnoresCase() = assertEquals(listOf(row), searchVisits(listOf(row), "REGIS"))
     @Test fun topicSearchIgnoresCase() = assertEquals(listOf(row), searchVisits(listOf(row), " ENROL "))
     @Test fun missingTermShowsNoRows() = assertTrue(searchVisits(listOf(row), "finance").isEmpty())
+    @Test fun statusAndSearchBothApply() {
+        val confirmed = row.copy(status = "confirmed")
+        assertEquals(listOf(confirmed), searchVisits(listOf(row, confirmed), "registry", "Confirmed"))
+        assertTrue(searchVisits(listOf(confirmed), "finance", "Confirmed").isEmpty())
+    }
 }
-

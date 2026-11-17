@@ -20,9 +20,9 @@ fun validateVisit(input: VisitInput) = FieldErrors(
     end = if (input.end <= input.start) "End must be after start." else null
 )
 
-fun searchVisits(visits: List<Visit>, query: String): List<Visit> = visits.filter {
-    it.officeName.contains(query.trim(), ignoreCase = true) ||
-        it.input.topic.contains(query.trim(), ignoreCase = true)
+fun searchVisits(visits: List<Visit>, query: String, status: String = "All"): List<Visit> = visits.filter {
+    (status == "All" || it.status.equals(status, ignoreCase = true)) &&
+        (it.officeName.contains(query.trim(), ignoreCase = true) || it.input.topic.contains(query.trim(), ignoreCase = true))
 }
 
 interface VisitRepository {

@@ -1,5 +1,6 @@
 package com.officepulse.app
 
+import com.officepulse.app.ui.theme.CampusHeader
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -40,10 +41,8 @@ fun LoginScreen(
             .padding(24.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = "OfficePulse",
-            style = MaterialTheme.typography.headlineLarge
-        )
+        CampusHeader("OfficePulse")
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = "Log in to your account",
