@@ -25,6 +25,8 @@ private fun displayTime(value: Long) = DateFormat.getDateTimeInstance(DateFormat
 @Composable
 fun VisitsScreen(model: VisitListModel, email: String, logout: () -> Unit, edit: (String?) -> Unit) {
     val state by model.state.collectAsStateWithLifecycle()
+    var query by rememberSaveable { mutableStateOf("") }
+    val visible = searchVisits(state.visits, query)
     LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)) {
         item {
@@ -36,12 +38,15 @@ fun VisitsScreen(model: VisitListModel, email: String, logout: () -> Unit, edit:
                 TextButton(onClick = logout) { Text("Log out") }
             }
         }
+        item { OutlinedTextField(query, { query = it }, label = { Text("Search by office or topic") },
+            singleLine = true, modifier = Modifier.fillMaxWidth(),
+            trailingIcon = { if (query.isNotEmpty()) TextButton(onClick = { query = "" }) { Text("Clear") } }) }
         when {
             state.loading -> item { CircularProgressIndicator() }
             state.error != null -> item { Text(state.error.orEmpty()); TextButton(onClick = model::retry) { Text("Retry") } }
 
         }
-        items(state.visits, key = { it.id }) { visit ->
+        items(visible, key = { it.id }) { visit ->
             OutlinedCard(modifier = Modifier.fillMaxWidth().clickable { edit(visit.id) }) {
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(visit.officeName, style = MaterialTheme.typography.titleMedium)
