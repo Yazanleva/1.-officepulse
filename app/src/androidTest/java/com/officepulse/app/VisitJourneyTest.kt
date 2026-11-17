@@ -13,6 +13,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.officepulse.app.visits.FirestoreVisits
+import com.officepulse.app.visits.VisitInput
 import com.officepulse.app.ui.theme.OfficePulseTheme
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
@@ -48,7 +50,43 @@ class VisitJourneyTest {
             (view as TimePicker).hour = hour
             view.minute = 0
         }
+        if (label == "Start") screenshot("lab2-picker")
         onView(withId(android.R.id.button1)).inRoot(isDialog()).perform(click())
+    }
+
+    @Test fun switchingAccountsReplacesThePreviousStudentsList() {
+        assumeTrue(InstrumentationRegistry.getArguments().getString("runVisits") == "true")
+        val auth = FirebaseAuth.getInstance()
+        val runId = UUID.randomUUID().toString()
+        val password = UUID.randomUUID().toString()
+        val first = "first-$runId@officepulse.example"
+        val second = "second-$runId@officepulse.example"
+        val repo = FirestoreVisits()
+        val start = System.currentTimeMillis()
+        try {
+            runBlocking {
+                for ((index, email) in listOf(first, second).withIndex()) {
+                    auth.createUserWithEmailAndPassword(email, password).await()
+                    val office = repo.offices().first()
+                    val slot = start + index * 60000L
+                    repo.save(null, VisitInput(office.id, "Student appointment $index", slot, slot + 60000L), office)
+                    auth.signOut()
+                }
+                auth.signInWithEmailAndPassword(first, password).await()
+            }
+            compose.setContent { OfficePulseTheme { AppNavHost() } }
+            waitText("Student appointment 0")
+            compose.onNodeWithText("Student appointment 1").assertDoesNotExist()
+            tap("Log out")
+            waitText("Log in to your account")
+            compose.onNodeWithText("Email").performTextInput(second)
+            compose.onNodeWithText("Password").performTextInput(password)
+            tap("Log in")
+            waitText("Student appointment 1")
+            compose.onNodeWithText("Student appointment 0").assertDoesNotExist()
+        } finally {
+            auth.signOut()
+        }
     }
 
     @Test fun studentBooksEditsSearchesAndDeletesOwnVisit() {
