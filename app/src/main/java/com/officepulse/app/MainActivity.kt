@@ -2,6 +2,8 @@ package com.officepulse.app
 
 import com.officepulse.app.visits.*
 import androidx.compose.runtime.remember
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -54,7 +56,11 @@ fun AppNavHost(
         NavHost(
             navController = navController,
             startDestination = if (isSignedIn) "home" else "login",
-            modifier = modifier
+            modifier = modifier,
+            enterTransition = { fadeIn(tween(180)) + slideInHorizontally(tween(220)) { it / 8 } },
+            exitTransition = { fadeOut(tween(130)) },
+            popEnterTransition = { fadeIn(tween(180)) + slideInHorizontally(tween(220)) { -it / 8 } },
+            popExitTransition = { fadeOut(tween(130)) }
         ) {
             composable("login") {
                 LoginScreen(

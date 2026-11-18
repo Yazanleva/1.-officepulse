@@ -1,5 +1,7 @@
 # OfficePulse
 
+This student project uses the Polish/English wordmark from the [Akademia WSB downloads page](https://wsb.edu.pl/uczelnia/do-pobrania). Its pink accent is sampled from the published logo (#CC0C61). The booking directory contains demo offices.
+
 OfficePulse helps university students avoid office queues by booking visits and tracking their turn.
 
 ## Run the booking app
@@ -35,7 +37,7 @@ Debug builds use the isolated demo-officepulse emulator project through the two 
 | visits | startAt, endAt | timestamps | user through native date/time pickers, end after start |
 | visits | createdAt | timestamp | server on create |
 | visits | updatedAt | timestamp | server on write |
-| visits | status, rejectReason | strings | app submits pending with empty reason, server owns the decision |
+| visits | status, rejectReason | strings | reserved for the later server-decision workflow |
 
 ### Definition of Done
 
@@ -52,89 +54,25 @@ flowchart LR
     Auth[Firebase Auth session] --> Repository
 ```
 
-The sections below record the original Lab 1 scope and setup.
+## Lab 2 verification and submission
+
+Selected extensions are E1 search across office and topic, E3 empty/no-results states and E4 native date/time pickers. Calendar handoff and quick duration choices are convenience features.
+
+The saved booking uses the same private data model as the original project. This Lab 2 build focuses on CRUD; server decision processing belongs to Lab 3.
+
+See docs/lab2-progress.md for saved checkpoints, verification and remaining team tasks.
 
 ## Team
 
-| Member | Responsibilities |
+| Member | Responsibility |
 | --- | --- |
-| Yazan (`Yazanleva`) | Repository owner, Tech Lead, initial Android/Firebase setup and authentication implementation |
-| Naser Almasry (`1naser-git`, student ID 65690) | Product documentation, authentication completion, testing and QA/DevOps |
+| Mohamad Yazan Alsaloumi (Yazanleva) | Android implementation, backend setup and technical verification |
+| Nasser Almassry (1naser-git) | Assigned review and device-verification work, subject to actual contributions |
 
-Both members develop and review code. A member other than the PR author reviews each change before it is merged.
+Repository: https://github.com/Yazanleva/1.-officepulse
 
-## Project links
+Sprint 2 board: https://github.com/users/Yazanleva/projects/2
 
-- [Public sprint board](https://github.com/users/1naser-git/projects/1) (managed by Naser and readable by the team and instructor)
-- [Original authentication PR #2](https://github.com/Yazanleva/1.-officepulse/pull/2)
-- [Lab 1 completion PR #3](https://github.com/Yazanleva/1.-officepulse/pull/3), based on `feature/auth`
-- [Retro - Lab 1](https://github.com/Yazanleva/1.-officepulse/issues/8)
+Previous Lab 1 board: https://github.com/users/1naser-git/projects/1
 
-Sprint 1 stories: [authentication #1](https://github.com/Yazanleva/1.-officepulse/issues/1), [office list #4](https://github.com/Yazanleva/1.-officepulse/issues/4), [booking #5](https://github.com/Yazanleva/1.-officepulse/issues/5), and [My visits #6](https://github.com/Yazanleva/1.-officepulse/issues/6). [Queue and expiry #7](https://github.com/Yazanleva/1.-officepulse/issues/7) are in the Lab 3 backlog.
-
-## MVP and scope
-
-| Feature | Delivery |
-| --- | --- |
-| Register, log in, log out and restore the session | Sprint 1, Lab 1 |
-| Browse university offices and their opening hours | Sprint 1, Lab 2 |
-| Open an office and book a visit | Sprint 1, Lab 2 |
-| View and cancel my visits | Sprint 1, Lab 2 |
-| Track my queue position | Later, Lab 3; server-side updates |
-| Automatically release expired reservations | Later, Lab 3; scheduled server-side logic |
-
-Maximum five screens: Login, Register, Home (office list), Office detail/booking, and My visits. Lab 1 implements only Login, Register and a temporary Home. The office and visit features are planned, not implemented in this lab.
-
-## First data model
-
-Firebase Authentication owns credentials. Firestore will store application data in Lab 2, in at most three collections:
-
-| Collection | Fields and types |
-| --- | --- |
-| `users` | `uid` (document ID/string, matches Auth UID), `email` (string), `displayName` (string), `createdAt` (timestamp) |
-| `offices` | `name` (string), `building` (string), `room` (string), `openingHours` (string), `serviceMinutes` (number), `isOpen` (boolean) |
-| `visits` | `ownerId` (string, Auth UID), `officeId` (string, office document ID), `startAt` (timestamp), `status` (string), `queueNumber` (number), `createdAt` (timestamp), `updatedAt` (timestamp) |
-
-Ownership: `users/{uid}` belongs to that authenticated UID; `visits.ownerId` links each visit to its owner. Office information is shared. Lab 2 Firestore Security Rules must enforce access on the server; hiding buttons in the app is insufficient. Firestore is a planned dependency, not required by the Lab 1 authentication skeleton.
-
-## Architecture
-
-```mermaid
-flowchart LR
-    UI[Compose screens and AppNavHost] --> VM[AuthViewModel / StateFlow]
-    VM --> V[AuthValidator / pure Kotlin]
-    VM --> R[AuthRepository interface]
-    R --> F[FirebaseAuthRepository]
-    F --> A[Firebase Authentication]
-    A -->|auth-state listener| F
-    UI -. Lab 2 .-> DB[(Cloud Firestore)]
-    FN[Cloud Functions / Lab 3] -. queue updates .-> DB
-```
-
-The repository is the only layer calling FirebaseAuth. It exposes session changes through a listener-backed flow and returns `Result<Unit>` from authentication operations. The ViewModel owns form values, validation, loading state and friendly errors. Navigation observes `isLoggedIn`; changing the session recreates the navigation graph and removes the previous session's back stack. Passwords stay in memory and are cleared when authentication succeeds or forms change.
-
-## How to run
-
-1. Clone the repository and check out the branch you want to test.
-2. Open the repository folder in Android Studio. Use JDK 25, Android SDK Platform 37 and a recent Google Play emulator (or an Android device, API 26+).
-3. Let Gradle sync. The wrapper provides Gradle 9.6.0. Dependency versions are in `gradle/libs.versions.toml`.
-4. Keep `app/google-services.json` in the app module. It identifies the existing Firebase project `officepulse-86e4d` and the package `com.officepulse.app`; no service-account private key is needed.
-5. The Firebase project owner enables Authentication > Sign-in method > Email/Password. Keep the free Spark plan. Team/instructor access is managed in the existing Firebase project.
-6. Run the `app` configuration. Register an account, log out, log in, and restart to check automatic login.
-
-The Firebase client configuration is included for team builds as requested by the handout. Do not commit service-account keys, passwords, tokens or signing keys.
-
-## Checks
-
-From the repository root, with the Android SDK configured:
-
-```powershell
-.\gradlew.bat :app:assembleDebug :app:testDebugUnitTest :app:lintDebug
-.\gradlew.bat :app:connectedDebugAndroidTest
-```
-
-The second command requires a running emulator or connected device. See [the test guide and verified cloud results](docs/testing.md), [clean screenshots and result records](docs/evidence/README.md), and [the lab checklist](docs/lab1-checklist.md). Real Firebase registration/login/logout, readable errors, restart/session persistence, Back navigation and form retention were verified on 23 October 2026. The remaining sign-off is the other member's review/merge, owner confirmation of Firebase billing/membership, and the classroom demo/retrospective.
-
-## Workflow
-
-Work on feature branches, open a PR linked to an issue (`Closes #...`), obtain a review from the other member, and squash-merge. The `protect-main` ruleset requires a PR, one approval, and prevents force pushes/deletion. Do not bypass the rules to manufacture two merged PRs. GitHub review history and the sprint board provide the completion evidence.
+Every change requires a peer-reviewed PR linked to an issue. Each teammate must author a meaningful merged PR for Lab 2. The instructor checks the demo and retrospective.
