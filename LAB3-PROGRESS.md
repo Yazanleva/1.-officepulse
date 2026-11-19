@@ -47,3 +47,8 @@ Emulator tests need their configured ports free. Existing Lab 2 services may occ
 ## Evidence
 Build log: `/Users/yazan/Documents/Codex/2026-11-16/ey/work/lab3-android.log`.
 No cross-team test, demo or student-authored contribution has been invented.
+
+## GitHub tracking
+- Draft PR: https://github.com/Yazanleva/1.-officepulse/pull/31
+- R1–R9 assigned requirement issues: #32–#40.
+- First CI run reached backend tests; Android setup failed because the SDK action requested obsolete package `tools`. Workflow now requests `platform-tools` explicitly; rerun pending.
