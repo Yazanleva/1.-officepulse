@@ -13,10 +13,12 @@ Lab 2 is preserved separately; do not replace its submitted package.
 - Back-to-back visits allowed; conflicts rejected; pending requests sorted by creation timestamp and ID.
 - Transactional audit records added; own-result updates ignored.
 - Eight pure server tests pass.
+- All 20 security rules tests pass.
+- All three transaction integration tests pass, including concurrent workers and retry audit checks.
+- Android unit tests, debug APK assembly and lint passed.
+- GitHub workflow permission was granted by the user.
 
 ## Written, still under verification
-- Backend transaction integration tests (concurrency, retries, edits, independent offices).
-- Security test suite extended from 11 to 20 cases.
 - GitHub Actions app and server jobs including rule tests.
 
 ## Still to do

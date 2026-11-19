@@ -1,9 +1,9 @@
-import { test, before, after } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { initializeApp, deleteApp } from 'firebase-admin/app';
-import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { createRequire } from 'node:module';
-const require=createRequire(import.meta.url);
+const require=createRequire(new URL('../functions/package.json', import.meta.url));
+const { initializeApp, deleteApp } = require('firebase-admin/app');
+const { getFirestore, Timestamp } = require('firebase-admin/firestore');
 const {processOffice}=require('../functions/lib/process.js');
 if (!process.env.FIRESTORE_EMULATOR_HOST) throw Error('Emulator required');
 const app=initializeApp({projectId:'demo-officepulse-workflow'});

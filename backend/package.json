@@ -8,8 +8,8 @@
   "scripts": {
     "start": "firebase emulators:start --project demo-officepulse",
     "seed": "node seed.mjs",
-    "test": "firebase emulators:exec --only firestore --project demo-officepulse \"node --test rules.test.mjs\"",
-    "test:workflow": "firebase emulators:exec --only firestore --project demo-officepulse-workflow \"node --test workflow.test.mjs\""
+    "test": "firebase emulators:exec --config ../firebase.test.json --only firestore --project demo-officepulse \"node --test rules.test.mjs\"",
+    "test:workflow": "firebase emulators:exec --config ../firebase.test.json --only firestore --project demo-officepulse-workflow \"node --test workflow.test.mjs\""
   },
   "dependencies": {
     "firebase-admin": "^13.0.0"
