@@ -1,0 +1,66 @@
+
+> test
+> npm run build && node --test test/*.test.cjs
+
+
+> build
+> tsc
+
+TAP version 13
+# Subtest: free slot confirms
+ok 1 - free slot confirms
+  ---
+  duration_ms: 0.503959
+  type: 'test'
+  ...
+# Subtest: overlap with confirmed rejects with a reason
+ok 2 - overlap with confirmed rejects with a reason
+  ---
+  duration_ms: 0.092042
+  type: 'test'
+  ...
+# Subtest: back to back bookings both confirm
+ok 3 - back to back bookings both confirm
+  ---
+  duration_ms: 0.269583
+  type: 'test'
+  ...
+# Subtest: earlier creation wins regardless of input order
+ok 4 - earlier creation wins regardless of input order
+  ---
+  duration_ms: 0.055208
+  type: 'test'
+  ...
+# Subtest: equal timestamps use ID tie breaker
+ok 5 - equal timestamps use ID tie breaker
+  ---
+  duration_ms: 0.045583
+  type: 'test'
+  ...
+# Subtest: rejected entries do not block
+ok 6 - rejected entries do not block
+  ---
+  duration_ms: 0.0415
+  type: 'test'
+  ...
+# Subtest: own updates do not generate decisions
+ok 7 - own updates do not generate decisions
+  ---
+  duration_ms: 0.31025
+  type: 'test'
+  ...
+# Subtest: chain conflict does not reject a free third booking
+ok 8 - chain conflict does not reject a free third booking
+  ---
+  duration_ms: 0.161375
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 34.107333

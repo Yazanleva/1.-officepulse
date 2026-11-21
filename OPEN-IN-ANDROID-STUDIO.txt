@@ -1,0 +1,27 @@
+OFFICEPULSE LAB 3 — ANDROID STUDIO
+
+1. Extract OfficePulse-Lab3-AndroidStudio.zip.
+2. In Android Studio choose Open, then select the extracted OfficePulse-Lab3 folder (the folder containing settings.gradle.kts).
+3. Let Gradle sync. Use Android Studio's bundled JDK 25. Install Android SDK Platform 37.0 and Build Tools 36.0.0 when prompted.
+4. Install Node.js 22 with npm if not already installed.
+5. Start the Pixel 8 Android emulator in Device Manager.
+6. Open a terminal in the project folder and run:
+   bash scripts/start-lab3.command
+   Keep this terminal open. Wait for all emulators to be ready.
+7. In another terminal in the project folder run:
+   bash scripts/connect-and-seed.command
+   This prints two LOCAL test accounts and connects the Android emulator.
+8. Select the app configuration and click Run in Android Studio. Sign in with one of the printed test accounts.
+
+The separate APK can be installed with adb install -r OfficePulse-Lab3-debug.apk, but it still needs this local backend and the reverse-port commands. It is not a standalone cloud service.
+
+The Lab 3 backend uses Auth 9199, Firestore 8280, Functions 5101 and UI http://127.0.0.1:4100. Existing Lab 2 data on 8080 is not modified.
+
+Seed again after restarting an empty emulator; credentials are regenerated. Do not use real passwords in the demo. Emulator data is temporary unless explicitly exported.
+
+For tests and technical details read docs/lab3-workflow.md.
+For completed and remaining coursework read LAB3-PROGRESS.md.
+GitHub PR: https://github.com/Yazanleva/1.-officepulse/pull/31
+Sprint 3: https://github.com/users/Yazanleva/projects/3
+
+Peer review, teammate's own contribution, cross-team usability, personal retrospective and classroom demo require the actual participants. A technical package is not proof those activities occurred.

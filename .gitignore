@@ -19,3 +19,7 @@ node_modules/
 *-debug.log
 
 .kotlin/
+
+functions/lib/
+functions/node_modules/
+emulator-data/

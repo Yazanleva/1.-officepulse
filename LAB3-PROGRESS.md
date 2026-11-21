@@ -1,0 +1,54 @@
+# Lab 3 progress and restart instructions
+
+Last checkpoint: 19 November 2026. Work branch: `lab3/server-workflow`.
+Project: `/Users/yazan/Desktop/OfficePulse-Lab3`.
+Lab 2 is preserved separately; do not replace its submitted package.
+
+## Completed implementation
+- Separate Lab 3 Git worktree and branch created from integrated Lab 2 main.
+- Pending/confirmed/rejected labels and rejection reasons added to visit cards.
+- Explicit Edit visit button added.
+- Debug/release backend choice made explicit through USE_EMULATORS.
+- TypeScript Firestore trigger and transactional per-office booking arbitration implemented.
+- Back-to-back visits allowed; conflicts rejected; pending requests sorted by creation timestamp and ID.
+- Transactional audit records added; own-result updates ignored.
+- Eight pure server tests pass.
+- All 20 security rules tests pass.
+- All three transaction integration tests pass, including concurrent workers and retry audit checks.
+- Android unit tests, debug APK assembly and lint passed.
+- GitHub workflow permission was granted by the user.
+
+## Written, still under verification
+- GitHub Actions app and server jobs including rule tests.
+
+## Still to do
+1. Finish local backend/emulator tests and fresh-clone instructions.
+2. Verify Android tests/status UI against the running Functions emulator.
+3. Create Sprint 3 issues, board tracking and submission/retro issues.
+4. Push reviewed PR workflow; observe actual CI and fix any failures.
+5. Demonstrate deliberately failing test then fix in PR history; require CI on main.
+6. Save evidence, APK and backup bundle; prepare a contribution report at final handoff.
+7. Human coursework: Nasser's own Sprint 3 PR/review; actual cross-team usability session with >=3 findings; fix critical findings; personal retrospectives; 4-minute demo and instructor assignment.
+8. Tag lab3 only after acceptance, not while required work remains.
+
+## Resume commands
+Use Node 22 and npm; JDK from Android Studio (25 for Android build, JDK21+ for Firebase).
+Local Node 22 is in `/Users/yazan/Documents/Codex/2026-11-16/ey/tmp/lab3-tools/node22/bin`.
+```
+npm ci --prefix functions
+npm test --prefix functions
+npm ci --prefix backend
+./gradlew testDebugUnitTest assembleDebug lintDebug
+npm test --prefix backend
+npm --prefix backend run test:workflow
+```
+Emulator tests need their configured ports free. Existing Lab 2 services may occupy 8080/9099; do not delete emulator data to resolve this.
+
+## Evidence
+Build log: `/Users/yazan/Documents/Codex/2026-11-16/ey/work/lab3-android.log`.
+No cross-team test, demo or student-authored contribution has been invented.
+
+## GitHub tracking
+- Draft PR: https://github.com/Yazanleva/1.-officepulse/pull/31
+- R1–R9 assigned requirement issues: #32–#40.
+- First CI run reached backend tests; Android setup failed because the SDK action requested obsolete package `tools`. Workflow now requests `platform-tools` explicitly; rerun pending.

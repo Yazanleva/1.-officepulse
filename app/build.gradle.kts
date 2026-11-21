@@ -22,7 +22,9 @@ android {
     }
 
     buildTypes {
+        debug { buildConfigField("boolean", "USE_EMULATORS", "true") }
         release {
+            buildConfigField("boolean", "USE_EMULATORS", "false")
             optimization {
                 enable = true
                 packageScope = setOf(
