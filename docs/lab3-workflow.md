@@ -52,3 +52,9 @@ Saved evidence is in docs/evidence/lab3. GitHub Actions runs app tests/build/lin
 5. Record screenshots and actual results. Do not mark these complete solely from server tests.
 
 Cross-team usability, personal reviews/retrospectives and the classroom demo require the actual participants. Record findings and links in the submission issue.
+
+## Parallel Lab 3 setup on this Mac
+
+Use `bash scripts/start-lab3.command` and then `bash scripts/connect-and-seed.command`. These use firebase.lab3.json on separate ports and preserve an existing Lab 2 suite. See OPEN-IN-ANDROID-STUDIO.txt.
+
+Real device trigger verification: BookingDecisionTest (opt in with runLab3=true) checks confirmed/rejected UI, rejection reason, account isolation, resubmission and delete against the running Functions emulator.
