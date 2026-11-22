@@ -1,7 +1,7 @@
 import { before, after, test } from 'node:test';
 import { readFile } from 'node:fs/promises';
 import { initializeTestEnvironment, assertSucceeds, assertFails } from '@firebase/rules-unit-testing';
-import { doc, getDoc, setDoc, updateDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc, serverTimestamp, Timestamp } from 'firebase/firestore';
 
 let env, alice, bob, guest;
 const visit = (db,id='original') => doc(db,'visits',id);
@@ -36,4 +36,28 @@ test('8 students can read offices',() => assertSucceeds(getDoc(office(alice))));
 test('9 client cannot create confirmed visit',() => assertFails(setDoc(visit(alice,'forged'),{...fields(),status:'confirmed'})));
 test('10 client cannot confirm pending visit',() => assertFails(updateDoc(visit(alice),{status:'confirmed',updatedAt:serverTimestamp()})));
 test('11 changing a confirmed slot requires pending',() => assertFails(updateDoc(visit(alice,'confirmed'),{endAt:Timestamp.fromMillis(3000),updatedAt:serverTimestamp()})));
-
+test('12 client cannot create rejected visit',() => assertFails(setDoc(visit(alice,'forged-reject'),{...fields(),status:'rejected'})));
+test('13 unknown status denied',() => assertFails(setDoc(visit(alice,'unknown'),{...fields(),status:'approved'})));
+test('14 client cannot forge rejection reason',() => assertFails(updateDoc(visit(alice),{rejectReason:'fake',updatedAt:serverTimestamp()})));
+test('15 created timestamp cannot change',() => assertFails(updateDoc(visit(alice),{createdAt:Timestamp.fromMillis(1),updatedAt:serverTimestamp()})));
+test('16 other user cannot delete',() => assertFails(deleteDoc(visit(bob))));
+test('17 extra field denied',() => assertFails(setDoc(visit(alice,'extra'),{...fields(),admin:true})));
+test('18 owner can edit slot when returning to pending',() => assertSucceeds(updateDoc(visit(alice,'confirmed'),{startAt:Timestamp.fromMillis(1100),status:'pending',rejectReason:'',updatedAt:serverTimestamp()})));
+test('19 owner can delete own visit',async()=>{await setDoc(visit(alice,'delete'),fields());await assertSucceeds(deleteDoc(visit(alice,'delete')))});
+test('20 client cannot read or write server audit',async()=>{await assertFails(getDoc(doc(alice,'bookingDecisions','one')));await assertFails(setDoc(doc(alice,'bookingLocks','registry'),{updatedAt:serverTimestamp()}))});
+test('21 missing required field is denied',async()=>{
+  const missing = fields();
+  delete missing.rejectReason;
+  await assertFails(setDoc(visit(alice,'missing-field'),missing));
+});
+test('22 another user cannot update the owner visit',async()=>{
+  await assertFails(updateDoc(visit(bob),{topic:'attempted takeover',updatedAt:serverTimestamp()}));
+});
+test('23 owner can update a non-decision field without rechecking',async()=>{
+  await assertSucceeds(updateDoc(visit(alice,'confirmed'),{topic:'Updated topic',updatedAt:serverTimestamp()}));
+});
+test('24 owner can delete an existing visit after an ordinary update',async()=>{
+  await setDoc(visit(alice,'delete-after-update'),fields());
+  await updateDoc(visit(alice,'delete-after-update'),{topic:'Updated before delete',updatedAt:serverTimestamp()});
+  await assertSucceeds(deleteDoc(visit(alice,'delete-after-update')));
+});

@@ -16,6 +16,7 @@ class VisitFormTest {
     private val example = VisitInput(office.id,"Transcript",1000,2000)
     private inner class Fake : VisitRepository {
         var writes = 0
+        var deletes = 0
         var fail = false
         val visits = mutableMapOf("saved" to Visit("saved", office.name, example))
         override fun observeMine() = flowOf(visits.values.toList())
@@ -27,7 +28,7 @@ class VisitFormTest {
             val key = id ?: "created"
             visits[key] = Visit(key, office.name, input)
         }
-        override suspend fun delete(id: String) { visits.remove(id) }
+        override suspend fun delete(id: String) { deletes++; visits.remove(id) }
     }
     @Before fun setup() { Dispatchers.setMain(dispatcher) }
     @After fun cleanup() { Dispatchers.resetMain() }
@@ -61,6 +62,12 @@ class VisitFormTest {
         advanceUntilIdle()
         assertTrue(model.state.value.message!!.contains("retry"))
         assertFalse(model.state.value.busy)
+        assertEquals(1, repo.writes)
+        repo.fail = false
+        model.save()
+        advanceUntilIdle()
+        assertEquals(2, repo.writes)
+        assertEquals("Visit saved.", model.state.value.result)
     }
     @Test fun editingLoadsExistingVisitAndDeletesById() = runTest(dispatcher) {
         val repo = Fake()
@@ -70,6 +77,8 @@ class VisitFormTest {
         model.delete()
         advanceUntilIdle()
         assertTrue(repo.visits.isEmpty())
+        assertEquals(1, repo.deletes)
+        assertEquals(0, repo.writes)
         assertEquals("Visit deleted.", model.state.value.result)
     }
 }

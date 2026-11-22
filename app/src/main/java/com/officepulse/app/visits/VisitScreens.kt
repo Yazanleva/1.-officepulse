@@ -67,6 +67,10 @@ fun VisitsScreen(model: VisitListModel, email: String, logout: () -> Unit, edit:
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     Text(visit.officeName, style = MaterialTheme.typography.titleMedium)
                     Text(visit.input.topic)
+                    Text("Status: " + visit.status.replaceFirstChar { it.uppercase() }, fontWeight = FontWeight.Bold)
+                    if (visit.status == "pending") Text("Checking availability…")
+                    if (visit.status == "rejected") Text(visit.reason, color = MaterialTheme.colorScheme.error)
+                    TextButton(onClick = { edit(visit.id) }) { Text("Edit visit") }
                     Text(displayTime(visit.input.start) + " – " + displayTime(visit.input.end))
                     TextButton(onClick = {
                         val intent = Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI)

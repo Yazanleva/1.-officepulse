@@ -1,0 +1,12 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const {decide}=require('../lib/decide');
+const slot=(id,start=10,end=12,status='pending',created='001')=>({id,start,end,status,created});
+test('free slot confirms',()=>assert.equal(decide([slot('a')])[0].status,'confirmed'));
+test('overlap with confirmed rejects with a reason',()=>{const [r]=decide([slot('a',10,12,'confirmed'),slot('b',11,13)]);assert.equal(r.status,'rejected');assert.match(r.rejectReason,/already booked/)});
+test('back to back bookings both confirm',()=>assert.deepEqual(decide([slot('a'),slot('b',12,14)]).map(x=>x.status),['confirmed','confirmed']));
+test('earlier creation wins regardless of input order',()=>assert.deepEqual(decide([slot('b',10,12,'pending','002'),slot('a')]).map(x=>[x.id,x.status]),[['a','confirmed'],['b','rejected']]));
+test('equal timestamps use ID tie breaker',()=>assert.equal(decide([slot('z'),slot('a')])[0].id,'a'));
+test('rejected entries do not block',()=>assert.equal(decide([slot('a',10,12,'rejected'),slot('b')])[0].status,'confirmed'));
+test('own updates do not generate decisions',()=>assert.deepEqual(decide([slot('a',10,12,'confirmed')]),[]));
+test('chain conflict does not reject a free third booking',()=>assert.deepEqual(decide([slot('a',10,12),slot('b',11,14),slot('c',12,13)]).map(x=>x.status),['confirmed','rejected','confirmed']));

@@ -17,7 +17,7 @@ OfficePulse is a Kotlin/Compose Android app for booking visits to university off
 
 Install Node 22 or 24 with npm, JDK 25, Android SDK 37 and an Android emulator with Google Play. Set JAVA_HOME and ANDROID_HOME. From the repository root:
 
-1. Run `npm ci --prefix backend`.
+1. Run `npm ci --prefix backend`, `npm ci --prefix functions` and `npm run build --prefix functions`.
 2. Run `npm --prefix backend start` and leave that terminal open.
 3. In a second terminal run `npm --prefix backend run seed`. It creates three offices and prints disposable sign-ins for two local accounts.
 4. Start the Android virtual device, run `adb reverse tcp:9099 tcp:9099` and `adb reverse tcp:8080 tcp:8080`, then run `./gradlew :app:installDebug` (Windows: `gradlew.bat :app:installDebug`). Open OfficePulse from the launcher and sign in with either account. Create a booking and switch accounts to compare the lists. The local Emulator UI is at http://127.0.0.1:4000.
@@ -37,7 +37,7 @@ Debug builds use the isolated demo-officepulse emulator project through the two 
 | visits | startAt, endAt | timestamps | user through native date/time pickers, end after start |
 | visits | createdAt | timestamp | server on create |
 | visits | updatedAt | timestamp | server on write |
-| visits | status, rejectReason | strings | reserved for the later server-decision workflow |
+| visits | status, rejectReason | strings | pending on creation/key edits; confirmed or rejected with reason by server |
 
 ### Definition of Done
 
@@ -58,7 +58,7 @@ flowchart LR
 
 Selected extensions are E1 search across office and topic, E3 empty/no-results states and E4 native date/time pickers. Calendar handoff and quick duration choices are convenience features.
 
-The saved booking uses the same private data model as the original project. This Lab 2 build focuses on CRUD; server decision processing belongs to Lab 3.
+The saved booking uses the same private data model as the original project. Lab 2 delivered CRUD. The Lab 3 work branch adds server decisions; see [Lab 3 setup and verification](docs/lab3-workflow.md) and [saved progress](LAB3-PROGRESS.md).
 
 See docs/lab2-progress.md for saved checkpoints, verification and remaining team tasks.
 
